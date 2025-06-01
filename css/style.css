@@ -1,0 +1,482 @@
+/* css/style.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50; /* Dark blue-gray */
+    color: #ecf0f1; /* Light gray */
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #34495e;
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ecf0f1;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #34495e; /* Slightly lighter dark blue-gray on hover */
+}
+
+.sidebar ul li.active a {
+    background-color: #3498db; /* Blue for active link */
+    color: white;
+}
+
+.sidebar ul li a .fas {
+    margin-right: 10px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333;
+}
+
+.actions .button {
+    background-color: #3498db; /* Blue */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.actions .button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.actions .button .fas {
+    margin-right: 5px;
+}
+
+.actions .button.logout {
+    background-color: #e74c3c; /* Red for logout */
+}
+
+.actions .button.logout:hover {
+    background-color: #c0392b; /* Darker red */
+}
+
+.actions .button.login {
+    background-color: #2ecc71; /* Green for login */
+}
+
+.actions .button.login:hover {
+    background-color: #27ae60; /* Darker green */
+}
+
+.file-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.file-list th, .file-list td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.file-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+}
+
+.file-list th:hover {
+    background-color: #e0e0e0;
+}
+
+.file-list td a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.file-list td a:hover {
+    text-decoration: underline;
+}
+
+.file-list td .fas {
+    margin-right: 5px;
+}
+
+/* Sortable header styles */
+.file-list th.sortable {
+    position: relative;
+    padding-right: 30px; /* Space for sort icons */
+}
+
+.file-list th.sortable .sort-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7em;
+    line-height: 0.8;
+    color: #999;
+}
+
+.file-list th.sortable .sort-icon i {
+    opacity: 0.5; /* Default state */
+}
+
+.file-list th.sortable.asc .sort-icon .fa-sort-up,
+.file-list th.sortable.desc .sort-icon .fa-sort-down {
+    display: inline-block !important;
+    opacity: 1;
+    color: #333;
+}
+
+.file-list th.sortable.asc .sort-icon .fa-sort,
+.file-list th.sortable.desc .sort-icon .fa-sort {
+    display: none;
+}
+
+
+/* Login Page Styles (retained for login.php) */
+.login-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    width: 400px;
+    text-align: center;
+    margin: auto; /* Center the login box */
+    align-self: center; /* Center vertically in flex container */
+}
+
+.login-container h2 {
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.login-container .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-container .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.login-container .form-group input[type="text"],
+.login-container .form-group input[type="password"] {
+    width: calc(100% - 22px); /* Adjust for padding and border */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-container button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.login-container button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.login-container p {
+    margin-top: 20px;
+}
+
+.login-container p a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.login-container p a:hover {
+    text-decoration: underline;
+}
+
+
+/* Modal Styles (New) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 600px; /* Adjust as needed */
+    width: 90%; /* Responsive width */
+    position: relative;
+    animation: fadeIn 0.3s ease-out; /* Simple animation */
+}
+
+.modal-content.image-modal-content {
+    max-width: 700px; /* Adjust max-width for image modal */
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modalImage {
+    max-width: 90%; /* 图片最大宽度为模态框的90% */
+    max-height: 50vh; /* 图片最大高度为视口高度的50% */
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    object-fit: contain; /* 确保图片在框内完整显示，不变形 */
+}
+
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.modal-content .link-item {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-content .link-item label {
+    font-weight: bold;
+    width: 85px; /* Adjust label width for modals */
+    flex-shrink: 0;
+    color: #666;
+}
+
+.modal-content .link-item input[type="text"] {
+    flex-grow: 1;
+    width: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    font-size: 0.95em;
+    cursor: pointer;
+}
+.modal-content .link-item input[type="text"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.modal-content .copy-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    font-size: 0.9em;
+}
+
+.modal-content .copy-button:hover {
+    background-color: #0056b3;
+}
+
+.modal-content .download-button {
+    display: none; /* 明确设置为不显示 */
+    margin-top: 25px;
+    text-align: center;
+    background-color: #28a745; /* Green for download */
+}
+
+.modal-content .download-button:hover {
+    background-color: #218838;
+}
+
+/* Image Grid Styles (New) */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive columns */
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.image-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.image-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.image-item img {
+    width: 100%;
+    height: 150px; /* Fixed height for consistent thumbnails */
+    object-fit: contain; /* Contain the image within the box */
+    display: block;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.image-item .image-title {
+    font-size: 0.9em;
+    color: #555;
+    text-align: center;
+    word-break: break-all; /* Break long words */
+    padding: 0 5px;
+    max-height: 2.4em; /* Limit title to 2 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2em;
+}
+
+/* Keyframe for fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Apply fade-out when modal is closing */
+.modal.closing .modal-content {
+    animation: fadeOut 0.3s ease-in forwards;
+}
+
+/* Image links container in modal */
+.image-modal-content .image-links-container {
+    width: 100%; /* Occupy full width within the modal */
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+.image-modal-content .image-links-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #34495e;
+    font-size: 1.1em;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+}

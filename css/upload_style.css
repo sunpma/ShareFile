@@ -1,0 +1,158 @@
+/* css/upload_style.css */
+
+/* Upload Page specific styles */
+.upload-area {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    margin: 20px; /* Adjusted margin to match main-content styling consistency */
+}
+
+/* Override .container in upload.php for single column layout */
+body > .container {
+    display: block; /* Remove flexbox from root container in upload.php */
+    width: auto;
+    margin: 0;
+}
+
+/* Adjust header in upload.php to fit single column layout */
+.upload-area > .header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-area > .header h2 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333;
+}
+
+.upload-area .actions {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+.upload-form {
+    margin-bottom: 30px; /* Space between form and links section */
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #eee; /* Separator */
+}
+
+.upload-form .form-group {
+    margin-bottom: 20px;
+}
+
+.upload-form .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.upload-form .form-group input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: calc(100% - 22px); /* Fill available space */
+}
+
+.upload-form button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-form button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+/* Image Links Container Styles */
+.image-links-container {
+    margin-top: 20px;
+    background-color: #fdfdfd; /* Lighter background for the link box */
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+.image-links-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #34495e;
+    font-size: 1.2em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.image-links-container .link-item {
+    margin-bottom: 15px;
+    display: flex; /* Use flexbox for horizontal layout */
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Space between label and input */
+}
+
+.image-links-container .link-item label {
+    font-weight: bold;
+    width: 80px; /* Fixed width for labels */
+    flex-shrink: 0; /* Prevent label from shrinking */
+    color: #666;
+}
+
+.image-links-container .link-item input[type="text"] {
+    flex-grow: 1; /* Allow input to fill remaining space */
+    width: auto; /* Override default width */
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    font-size: 0.95em;
+    cursor: pointer; /* Indicate it's clickable to copy */
+    transition: border-color 0.3s ease;
+}
+
+.image-links-container .link-item input[type="text"]:hover {
+    border-color: #a0a0a0;
+}
+
+.image-links-container .link-item input[type="text"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* For messages (success/error) */
+p[style^="color"] {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+p[style="color: red;"] {
+    background-color: #ffe0e0;
+    border: 1px solid #ff9999;
+    color: #cc0000 !important;
+}
+
+p[style="color: green;"] {
+    background-color: #e0ffe0;
+    border: 1px solid #99ff99;
+    color: #008000 !important;
+}
+
+p[style="color: orange;"] {
+    background-color: #fffbe6;
+    border: 1px solid #ffe880;
+    color: #e69900 !important;
+}
