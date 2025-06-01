@@ -3,6 +3,24 @@
 session_start();
 require_once 'config.php';
 
+// 辅助函数：格式化文件大小
+function formatSizeUnits($bytes) {
+    if ($bytes >= 1073741824) {
+        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+    } elseif ($bytes >= 1048576) {
+        $bytes = number_format($bytes / 1048576, 2) . ' MB';
+    } elseif ($bytes >= 1024) {
+        $bytes = number_format($bytes / 1024, 2) . ' KB';
+    } elseif ($bytes > 1) {
+        $bytes = $bytes . ' bytes';
+    } elseif ($bytes == 1) {
+        $bytes = $bytes . ' byte';
+    } else {
+        $bytes = '0 bytes';
+    }
+    return $bytes;
+}
+
 $is_logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 
 // 读取文件元数据
@@ -18,12 +36,14 @@ if (file_exists(DATA_FILE)) {
 }
 
 // 筛选出实际存在的文件，并过滤掉 files.json 中记录但实际已被删除的文件
+// 同时获取文件大小
 $filtered_files_data = [];
 foreach ($files_data as $path => $data) {
     // 检查文件是否存在于文件系统中
     if (file_exists($path) && is_file($path)) {
         // 健壮性检查：确保 $data 数组包含必要的键
         if (isset($data['name'], $data['type'], $data['upload_time'])) {
+            $data['size'] = filesize($path); // 获取并添加文件大小
             $filtered_files_data[$path] = $data;
         }
     }
@@ -32,11 +52,18 @@ foreach ($files_data as $path => $data) {
 // 更新 files.json，移除不存在的文件记录（可选，但推荐保持数据同步）
 // 注意：如果文件量大，每次加载都写文件可能影响性能。
 // 对于单用户小规模应用，可以接受。
+// 此处更新不会将 'size' 写入 files.json，因为 'size' 是动态获取的。
 if (count($files_data) !== count($filtered_files_data)) {
-    file_put_contents(DATA_FILE, json_encode($filtered_files_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    $files_data = $filtered_files_data; // 更新当前页面的数据源
+    // 从 filtered_files_data 中移除临时的 'size' 键，以免意外写入 files.json
+    $data_to_save = [];
+    foreach ($filtered_files_data as $path => $details) {
+        unset($details['size']); // 移除大小，因为它不是原始元数据的一部分
+        $data_to_save[$path] = $details;
+    }
+    file_put_contents(DATA_FILE, json_encode($data_to_save, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    $files_data = $filtered_files_data; // 更新当前页面的数据源 (包含size)
 } else {
-    $files_data = $filtered_files_data; // 否则直接使用过滤后的数据
+    $files_data = $filtered_files_data; // 否则直接使用过滤后的数据 (包含size)
 }
 
 
@@ -48,6 +75,7 @@ foreach ($files_data as $path => $data) {
     if ($data['type'] === 'file') {
         $files[$path] = $data;
     } else {
+        // 图片列表不需要显示文件大小列，所以可以不处理 $data['size']
         $images[$path] = $data;
     }
 }
@@ -57,7 +85,7 @@ $current_view = $_GET['view'] ?? 'file'; // 'file' 或 'img'
 $display_data = ($current_view === 'img') ? $images : $files;
 
 // 排序功能（可选）
-if (isset($_GET['sort'])) {
+if (isset($_GET['sort']) && $current_view === 'file') { // 仅对文件列表排序
     $sort_by = $_GET['sort'];
     $sort_order = $_GET['order'] ?? 'asc'; // 'asc' 或 'desc'
 
@@ -65,7 +93,7 @@ if (isset($_GET['sort'])) {
         $val_a = $a[$sort_by] ?? '';
         $val_b = $b[$sort_by] ?? '';
 
-        if ($sort_by === 'downloads') {
+        if ($sort_by === 'downloads' || $sort_by === 'size') { // 添加 'size' 进行数值比较
             $val_a = (int)$val_a;
             $val_b = (int)$val_b;
         }
@@ -141,8 +169,8 @@ define('THUMBNAIL_SIZE', '150');
                                         <i class="fas fa-sort-down" style="display:none;"></i>
                                     </span>
                                 </th>
-                                <th class="sortable" data-sort="upload_time">
-                                    上传时间
+                                <th class="sortable" data-sort="size">
+                                    文件大小
                                     <span class="sort-icon">
                                         <i class="fas fa-sort"></i>
                                         <i class="fas fa-sort-up" style="display:none;"></i>
@@ -157,18 +185,27 @@ define('THUMBNAIL_SIZE', '150');
                                         <i class="fas fa-sort-down" style="display:none;"></i>
                                     </span>
                                 </th>
+                                <th class="sortable" data-sort="upload_time">
+                                    上传时间
+                                    <span class="sort-icon">
+                                        <i class="fas fa-sort"></i>
+                                        <i class="fas fa-sort-up" style="display:none;"></i>
+                                        <i class="fas fa-sort-down" style="display:none;"></i>
+                                    </span>
+                                </th>
                                 <th>链接地址</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($display_data)): ?>
-                                <tr><td colspan="4" style="text-align: center;">没有文件。</td></tr>
+                                <tr><td colspan="5" style="text-align: center;">没有文件</td></tr>
                             <?php else: ?>
                                 <?php foreach ($display_data as $file_path => $data): ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($data['name'] ?? ''); ?></td>
-                                        <td><?php echo htmlspecialchars(isset($data['upload_time']) ? date('Y-m-d H:i:s', strtotime($data['upload_time'])) : ''); ?></td>
+                                        <td><?php echo htmlspecialchars(formatSizeUnits($data['size'] ?? 0)); ?></td>
                                         <td><?php echo (int)($data['downloads'] ?? 0); ?></td>
+                                        <td><?php echo htmlspecialchars(isset($data['upload_time']) ? date('Y-m-d H:i:s', strtotime($data['upload_time'])) : ''); ?></td>
                                         <td>
                                             <a href="#" class="show-link-card" data-link="<?php echo htmlspecialchars(SITE_BASE_URL . 'download.php?file=' . urlencode($file_path)); ?>">
                                                 <i class="fas fa-link"></i> 获取链接
@@ -183,7 +220,7 @@ define('THUMBNAIL_SIZE', '150');
             <?php else: // 图片列表 ?>
                 <div class="image-grid">
                     <?php if (empty($display_data)): ?>
-                        <p style="text-align: center; grid-column: 1 / -1;">没有图片。</p>
+                        <p style="text-align: center; grid-column: 1 / -1;">没有图片</p>
                     <?php else: ?>
                         <?php foreach ($display_data as $file_path => $data):
                             $image_full_url = SITE_BASE_URL . $file_path;
