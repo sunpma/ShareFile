@@ -199,10 +199,12 @@ define('THUMBNAIL_SIZE', '150');
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-        </div>
-    </div>
 
-    <div id="linkModal" class="modal">
+            <div style="text-align: center; padding: 20px 0; clear: both; width: 100%;">
+                <a style="color:#cecece; text-decoration: none;" target="_blank" href="https://suntl.com">SunPma'Blog -</a> <a style="color:#cecece; text-decoration: none;" target="_blank" href="https://github.com/sunpma/ShareFile">ShareFile</a>
+            </div>
+
+        </div> </div> <div id="linkModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2>文件下载链接</h2>
