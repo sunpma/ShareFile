@@ -1,9 +1,9 @@
 <?php
 // upload.php
 
-// 辅助函数：生成指定长度的随机字符串（小写字母和数字）
+// 辅助函数：生成指定长度的随机字符串（仅数字）
 function generateRandomString($length = 8) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+    $characters = '0123456789'; // 修改点：字符集仅包含数字
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 
     // 根据是否为图片决定最终的文件名
     if ($is_image) {
-        $new_name_without_ext = generateRandomString(8); // 生成8位随机字符串
+        $new_name_without_ext = generateRandomString(8); // 生成8位随机数字字符串
         $filename = $new_name_without_ext . '.' . $file_ext; // 新文件名 = 随机字符串 + . + 原始扩展名
     } else {
         $filename = $original_filename; // 非图片文件使用原始名称
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         if (!is_dir($target_dir)) {
             if (!mkdir($target_dir, 0777, true)) {
                 $message = "<p style='color: red;'>错误：无法创建上传目录 " . htmlspecialchars($target_dir) . "。请检查权限。</p>";
-                $uploadOk = 0; 
+                $uploadOk = 0;
             }
         }
         
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
 
             // 元数据中的 'name' 存储实际的文件名（处理后的）
             $files_data[$file_key] = [
-                'name' => $filename, 
+                'name' => $filename,
                 'type' => $is_image ? 'img' : 'file',
                 'upload_time' => $current_time,
                 'downloads' => 0
